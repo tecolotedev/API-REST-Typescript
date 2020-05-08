@@ -1,25 +1,20 @@
 import app from './app';
 import auth from './routes/auth';
+import mongoose from 'mongoose';
+
+import './config';
 
 
 //Routes
 app.use('/api/auth',auth);
 
-//db
-import myConnection from 'express-myconnection';
-import mysql from 'mysql';
-const optionsDB = {
-  host     : 'localhost',
-  user     : 'Manuel',
-  password : 'Spartan11713',
-  database : 'prueba1'
-}
-app.use(myConnection(mysql,optionsDB,'single'));
- 
-
-
-
+//database
+mongoose.connect(process.env.URI_MONGODB || 'mongodb://localhost/crudusuarios', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex:true
+},()=>{console.log('server online')});
 
 app.listen(3000,()=>{
     console.log('server on port 3000');
-})
+});
